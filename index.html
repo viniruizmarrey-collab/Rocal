@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-PT">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,12 +9,14 @@
         body { 
             font-family: 'Inter', sans-serif; 
             background-color: #e4e4e7; /* Cinza Claro Externo (Zinc 200) */
+            position: relative;
         }
-        /* Painéis internos mantêm o tom cinza escuro para alto contraste e estética industrial */
+        /* Painéis internos mantêm o tom cinza-escuro para alto contraste e estética industrial */
         .bg-industrial { background-color: #18181b; /* Zinc 900 */ }
-        .text-accent { color: #f59e0b; } 
-        .bg-accent { background-color: #f59e0b; }
-        .border-accent { border-color: #f59e0b; }
+        .text-accent { color: #fde047; /* Amarelo Claro */ } 
+        .bg-accent { background-color: #fde047; /* Amarelo Claro */ }
+        .border-accent { border-color: #fde047; /* Amarelo Claro */ }
+        
         input[type=number]::-webkit-inner-spin-button, 
         input[type=number]::-webkit-outer-spin-button { 
             -webkit-appearance: none; 
@@ -33,24 +35,90 @@
             border-radius: 4px;
         }
         ::-webkit-scrollbar-thumb:hover {
-            background: #f59e0b;
+            background: #fde047;
         }
     </style>
 </head>
-<body class="min-h-screen text-zinc-800 p-4 md:p-8 pb-24">
+<body class="min-h-screen text-zinc-800 p-4 md:p-8 pb-24 overflow-x-hidden">
+
+    <!-- Fundo de Circuito Eletrônico SVG Decorativo -->
+    <div class="fixed inset-0 pointer-events-none z-0 opacity-[0.06] flex items-center justify-center overflow-hidden">
+        <svg class="w-full h-full min-w-[1200px]" viewBox="0 0 1920 1080" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <!-- Trilhas e Nós do lado esquerdo superior -->
+            <path d="M 100,100 H 300 L 400,200 V 500 L 450,550 H 600" stroke="#18181b" stroke-width="4" stroke-linecap="round"/>
+            <circle cx="100" cy="100" r="10" fill="#18181b" />
+            <circle cx="600" cy="550" r="10" fill="#18181b" />
+            <path d="M 200,100 L 300,200 V 400 L 350,450 H 500" stroke="#18181b" stroke-width="4" stroke-dasharray="10 15"/>
+            <circle cx="500" cy="450" r="6" fill="#18181b" />
+            
+            <!-- Circuitos centrais -->
+            <path d="M 800,150 L 950,300 H 1200 L 1300,400 V 600" stroke="#18181b" stroke-width="4" stroke-linecap="round"/>
+            <circle cx="800" cy="150" r="10" fill="#18181b"/>
+            <circle cx="1300" cy="600" r="10" fill="#18181b"/>
+            
+            <!-- Grade integrada estilo CI (Circuito Integrado) -->
+            <rect x="900" y="450" width="120" height="120" rx="10" stroke="#18181b" stroke-width="4" fill="none"/>
+            <line x1="900" y1="480" x2="860" y2="480" stroke="#18181b" stroke-width="4" stroke-linecap="round" />
+            <line x1="900" y1="510" x2="860" y2="510" stroke="#18181b" stroke-width="4" stroke-linecap="round" />
+            <line x1="900" y1="540" x2="860" y2="540" stroke="#18181b" stroke-width="4" stroke-linecap="round" />
+            <line x1="1020" y1="480" x2="1060" y2="480" stroke="#18181b" stroke-width="4" stroke-linecap="round" />
+            <line x1="1020" y1="510" x2="1060" y2="510" stroke="#18181b" stroke-width="4" stroke-linecap="round" />
+            <line x1="1020" y1="540" x2="1060" y2="540" stroke="#18181b" stroke-width="4" stroke-linecap="round" />
+            
+            <!-- Trilhas do lado direito inferior -->
+            <path d="M 1400,800 H 1600 L 1750,650 V 300 H 1850" stroke="#18181b" stroke-width="4" stroke-linecap="round"/>
+            <circle cx="1400" cy="800" r="10" fill="#18181b" />
+            <circle cx="1850" cy="300" r="10" fill="#18181b" />
+            <path d="M 1550,800 L 1650,700 V 400 L 1700,350" stroke="#18181b" stroke-width="4" stroke-linecap="round"/>
+            <circle cx="1700" cy="350" r="6" fill="#18181b" />
+        </svg>
+    </div>
+
+    <!-- Modal de Solicitação de Senha Personalizado -->
+    <div id="modal-senha" class="fixed inset-0 bg-black/85 backdrop-blur-md z-50 flex items-center justify-center hidden p-4">
+        <div class="bg-zinc-900 border border-zinc-700 w-full max-w-md rounded-2xl shadow-2xl p-6 text-zinc-100">
+            <div class="flex items-center gap-3 mb-4 border-b border-zinc-800 pb-3">
+                <div class="p-2.5 bg-yellow-400/10 text-yellow-300 rounded-lg">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
+                </div>
+                <div>
+                    <h4 class="text-lg font-bold uppercase tracking-wider text-yellow-300">Acesso Restrito</h4>
+                    <p class="text-xs text-zinc-400">Esta ação exige confirmação de segurança.</p>
+                </div>
+            </div>
+            
+            <div class="mb-4">
+                <label for="input-senha-chave" class="block text-xs font-mono text-zinc-400 uppercase mb-2">Digite a senha de acesso:</label>
+                <input type="password" id="input-senha-chave" class="w-full bg-zinc-950 border border-zinc-700 rounded-lg p-3 text-white text-sm font-mono tracking-widest focus:border-yellow-300 outline-none" placeholder="••••••••">
+                <p id="erro-senha-msg" class="text-red-400 text-xs mt-2 hidden font-bold flex items-center gap-1">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg>
+                    Senha inválida! Tente novamente.
+                </p>
+            </div>
+
+            <div class="flex gap-3 pt-2">
+                <button onclick="fecharModalSenha()" class="flex-1 bg-zinc-800 hover:bg-zinc-700 text-zinc-300 font-bold py-2.5 rounded-lg text-xs uppercase transition tracking-wider border border-zinc-700/50">
+                    Cancelar
+                </button>
+                <button onclick="confirmarSenhaChave()" class="flex-1 bg-yellow-300 hover:bg-yellow-200 text-zinc-950 font-black py-2.5 rounded-lg text-xs uppercase transition tracking-wider shadow-md">
+                    Confirmar
+                </button>
+            </div>
+        </div>
+    </div>
 
     <!-- Div para alertas elegantes e sistema de Desfazer Exclusão -->
-    <div id="toast" class="fixed bottom-6 right-6 bg-zinc-900 border-2 border-yellow-500 text-zinc-100 font-medium px-6 py-4 rounded-xl shadow-2xl transition-all duration-300 opacity-0 pointer-events-none transform translate-y-4 z-50 flex flex-col sm:flex-row items-center gap-3 max-w-md">
+    <div id="toast" class="fixed bottom-6 right-6 bg-zinc-900 border-2 border-yellow-300 text-zinc-100 font-medium px-6 py-4 rounded-xl shadow-2xl transition-all duration-300 opacity-0 pointer-events-none transform translate-y-4 z-50 flex flex-col sm:flex-row items-center gap-3 max-w-md">
         <div class="flex items-center gap-2">
-            <svg class="w-5 h-5 text-yellow-500" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+            <svg class="w-5 h-5 text-yellow-300" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
             <span id="toast-message" class="text-sm">Operação realizada com sucesso!</span>
         </div>
-        <button id="toast-undo-btn" onclick="desfazerExclusao()" class="hidden bg-yellow-500 hover:bg-yellow-400 text-zinc-950 font-bold px-3 py-1 rounded text-xs uppercase tracking-wider transition">
+        <button id="toast-undo-btn" onclick="desfazerExclusaoComSenha()" class="hidden bg-yellow-300 hover:bg-yellow-200 text-zinc-950 font-bold px-3 py-1 rounded text-xs uppercase tracking-wider transition">
             Desfazer
         </button>
     </div>
 
-    <!-- Modal interativo para visualizar produtos específicos de cada máquina -->
+    <!-- Modal interativo para visualizar produtos e materiais específicos -->
     <div id="modal-detalhes" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center hidden p-4">
         <div class="bg-zinc-900 border border-zinc-700 w-full max-w-4xl rounded-xl shadow-2xl overflow-hidden flex flex-col max-h-[90vh]">
             <div class="p-6 border-b border-zinc-800 flex justify-between items-center bg-zinc-950">
@@ -72,16 +140,27 @@
         </div>
     </div>
 
-    <div class="max-w-7xl mx-auto">
-        <!-- Cabeçalho em bloco escuro flutuando sobre o fundo cinza claro -->
-        <header class="mb-8 bg-zinc-900 p-6 rounded-xl border border-zinc-800/80 shadow-lg flex flex-col md:flex-row justify-between items-center gap-4 text-zinc-100">
-            <div>
-                <h1 class="text-4xl font-black tracking-tighter uppercase text-accent">ROCAL NOTURNO</h1>
-                <p class="text-xs text-zinc-400 uppercase tracking-widest font-mono mt-1">Painel Industrial de Controle de Produção</p>
+    <div class="max-w-7xl mx-auto relative z-10">
+        <!-- Cabeçalho com Logomarca Centralizada Escrita e Estilo Minimalista -->
+        <header class="mb-8 bg-zinc-900 p-6 rounded-xl border border-zinc-800/80 shadow-lg flex flex-col items-center justify-center gap-6 text-zinc-100">
+            <!-- Rocal Eletrônica Escrito de Forma Simples e Centralizada -->
+            <div class="flex flex-col items-center justify-center text-center">
+                <span class="text-4xl font-black tracking-[0.3em] text-yellow-300 uppercase font-sans">ROCAL ELETRÔNICA</span>
             </div>
-            <div class="flex items-center gap-3 bg-zinc-950 border border-zinc-800 rounded-lg p-2 px-4 shadow-inner">
-                <span class="text-zinc-400 font-mono text-xs uppercase tracking-wider font-bold">Data do Turno:</span>
-                <input type="date" id="main-data" class="bg-zinc-900 border border-zinc-800 rounded px-3 py-1.5 text-yellow-500 font-mono text-sm outline-none focus:border-accent">
+            
+            <!-- Linha divisória fina -->
+            <div class="w-full border-t border-zinc-800/60 my-1"></div>
+            
+            <!-- Informações e Seletor de Data -->
+            <div class="flex flex-col md:flex-row justify-between items-center w-full gap-4">
+                <div class="text-center md:text-left">
+                    <h1 class="text-3xl font-black tracking-tighter uppercase text-accent">ROCAL NOTURNO</h1>
+                    <p class="text-xs text-zinc-400 uppercase tracking-widest font-mono mt-0.5">CONTROLE DE PRODUÇÃO</p>
+                </div>
+                <div class="flex items-center gap-3 bg-zinc-950 border border-zinc-800 rounded-lg p-2 px-4 shadow-inner">
+                    <span class="text-zinc-400 font-mono text-xs uppercase tracking-wider font-bold">Data do Turno:</span>
+                    <input type="date" id="main-data" class="bg-zinc-900 border border-zinc-800 rounded px-3 py-1.5 text-yellow-300 font-mono text-sm outline-none focus:border-accent">
+                </div>
             </div>
         </header>
 
@@ -89,20 +168,44 @@
             <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 gap-2">
                 <div>
                     <h2 id="formulario-titulo" class="text-xl font-extrabold text-zinc-100 uppercase border-l-4 border-accent pl-3 tracking-wide">Registrar Produção</h2>
-                    <p class="text-xs text-zinc-400 ml-4 mt-1">Informe os códigos e as respectivas quantidades produzidas</p>
+                    <p class="text-xs text-zinc-400 ml-4 mt-1">Informe os códigos e as respetivas quantidades produzidas e consumidas</p>
                 </div>
-                <div id="indicador-edicao" class="hidden bg-amber-500/15 border border-amber-500/30 text-yellow-500 px-3 py-1.5 rounded-lg text-xs font-mono flex items-center gap-2">
-                    <span class="w-2 h-2 bg-yellow-500 rounded-full animate-ping"></span>
+                <div id="indicador-edicao" class="hidden bg-yellow-500/15 border border-yellow-500/30 text-yellow-300 px-3 py-1.5 rounded-lg text-xs font-mono flex items-center gap-2">
+                    <span class="w-2 h-2 bg-yellow-300 rounded-full animate-ping"></span>
                     MODO EDIÇÃO ATIVO
                 </div>
             </div>
             
+            <!-- Grid das Máquinas -->
             <div id="container-maquinas" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-6">
-                <!-- Gerado via JS de forma dinâmica -->
+                <!-- Gerado via JS de forma dinâmica (M1 a M5, e Diversos) -->
+            </div>
+
+            <!-- Seção Especial: Almoxarifado -->
+            <div class="border-t border-zinc-800/80 pt-6 mt-6 mb-6">
+                <h3 class="text-xs font-black text-yellow-300 uppercase tracking-widest mb-4 flex items-center gap-2">
+                    <svg class="w-4 h-4 text-yellow-300" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/></svg>
+                    Controle de Almoxarifado (Insumos Retirados)
+                </h3>
+                <div class="max-w-md">
+                    <div class="bg-zinc-900/60 p-4 rounded-xl border border-zinc-800/90 hover:border-zinc-700/80 transition duration-150 text-zinc-200">
+                        <div class="flex justify-between items-center mb-3 border-b border-zinc-800 pb-2">
+                            <label class="block text-xs font-black text-yellow-300 uppercase tracking-wider">Material Retirado do Estoque</label>
+                            <button type="button" onclick="adicionarLinha('almox')" class="bg-zinc-800 hover:bg-zinc-700 text-yellow-300 hover:text-yellow-200 p-1.5 px-2.5 rounded-lg text-xs font-bold flex items-center gap-1 transition shadow border border-zinc-700/50">
+                                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/></svg>
+                                <span>Linha</span>
+                            </button>
+                        </div>
+                        
+                        <div id="almox-rows-container" class="space-y-3">
+                            <!-- Gerado de forma dinâmica -->
+                        </div>
+                    </div>
+                </div>
             </div>
 
             <div class="flex flex-col sm:flex-row gap-3">
-                <button onclick="salvarProducao()" class="flex-1 bg-accent text-zinc-950 font-black py-4 rounded-xl hover:bg-yellow-500 active:scale-[0.99] transition duration-150 uppercase tracking-widest shadow-lg flex justify-center items-center gap-2 text-base">
+                <button onclick="solicitarSenha(salvarProducao)" class="flex-1 bg-accent text-zinc-950 font-black py-4 rounded-xl hover:bg-yellow-200 active:scale-[0.99] transition duration-150 uppercase tracking-widest shadow-lg flex justify-center items-center gap-2 text-base">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3 3m0 0l-3-3m3 3V4"/></svg>
                     <span id="btn-gravar-texto">Gravar Produção no Banco</span>
                 </button>
@@ -116,7 +219,7 @@
             <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
                 <div>
                     <h2 class="text-xl font-extrabold text-zinc-100 uppercase border-l-4 border-accent pl-3 tracking-wide">Produções Anteriores</h2>
-                    <p class="text-xs text-zinc-400 ml-4 mt-1">Histórico consolidado com detalhamento de códigos e quantidades</p>
+                    <p class="text-xs text-zinc-400 ml-4 mt-1">Histórico consolidado com detalhamento de códigos, quantidades e retiradas</p>
                 </div>
                 <div class="flex gap-2 w-full sm:w-auto flex-wrap sm:flex-nowrap">
                     <button onclick="exportarCSV()" class="flex-1 sm:flex-none bg-zinc-800 text-zinc-200 border border-zinc-700 px-5 py-2.5 rounded-lg hover:bg-zinc-700 hover:text-white transition text-xs font-black uppercase tracking-wider flex items-center justify-center gap-2">
@@ -139,7 +242,8 @@
                             <th class="p-4 text-center min-w-[150px]">M3 Produção</th>
                             <th class="p-4 text-center min-w-[150px]">M4 Produção</th>
                             <th class="p-4 text-center min-w-[150px]">M5 Produção</th>
-                            <th class="p-4 text-center min-w-[150px] text-yellow-500">Diversos</th>
+                            <th class="p-4 text-center min-w-[150px] text-yellow-300">Diversos</th>
+                            <th class="p-4 text-center min-w-[150px] text-zinc-400">Almoxarifado</th>
                             <th class="p-4 text-right min-w-[180px]">Ações</th>
                         </tr>
                     </thead>
@@ -152,62 +256,144 @@
     </div>
 
     <script>
-        const maquinas = ['m1', 'm2', 'm3', 'm4', 'm5', 'div'];
+        const maquinas = ['m1', 'm2', 'm3', 'm4', 'm5', 'div', 'almox'];
         let idEdicaoAtiva = null;
         let registroDeletadoProvisorio = null;
         let temporizadorToast = null;
         
+        // Estrutura para controle de senha
+        let callbackAcaoSenha = null;
+
         document.addEventListener('DOMContentLoaded', () => {
             // Configura a data padrão para o dia de hoje
             document.getElementById('main-data').value = new Date().toISOString().split('T')[0];
             
-            // Monta o formulário de forma modular
+            // Monta o formulário de máquinas de forma dinâmica
             const container = document.getElementById('container-maquinas');
             maquinas.forEach(maq => {
+                if (maq === 'almox') return; // Renderizado na seção de almoxarifado dedicada
+                
                 const label = maq === 'div' ? 'Diversos' : `Máquina ${maq.toUpperCase()}`;
                 container.innerHTML += `
                     <div class="bg-zinc-900/60 p-4 rounded-xl border border-zinc-800/90 hover:border-zinc-700/80 transition duration-150 text-zinc-200">
-                        <label class="block text-xs font-black text-accent uppercase tracking-wider mb-3 border-b border-zinc-800 pb-2">${label}</label>
+                        <div class="flex justify-between items-center mb-3 border-b border-zinc-800 pb-2">
+                            <label class="block text-xs font-black text-accent uppercase tracking-wider">${label}</label>
+                            <button type="button" onclick="adicionarLinha('${maq}')" class="bg-zinc-800 hover:bg-zinc-700 text-yellow-300 hover:text-yellow-200 p-1.5 px-2.5 rounded-lg text-xs font-bold flex items-center gap-1 transition shadow border border-zinc-700/50">
+                                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/></svg>
+                                <span>Linha</span>
+                            </button>
+                        </div>
                         
-                        <div class="space-y-3">
-                            <!-- Divisória da Linha 1 -->
-                            <div class="space-y-1">
-                                <div class="flex justify-between items-center px-1"><span class="text-[10px] text-zinc-500 font-mono uppercase tracking-wider">Linha de Prod. 1</span></div>
-                                <div class="grid grid-cols-5 gap-2">
-                                    <input type="text" id="${maq}_code_1" placeholder="Cód. Prod." class="col-span-3 bg-zinc-950 border border-zinc-800 rounded p-2 text-white text-xs font-mono focus:border-yellow-600 outline-none uppercase">
-                                    <input type="number" id="${maq}_qty_1" placeholder="Qtd." class="col-span-2 bg-zinc-950 border border-zinc-800 rounded p-2 text-white text-xs font-mono text-right focus:border-yellow-600 outline-none">
-                                </div>
-                            </div>
-                            
-                            <hr class="border-zinc-800/70">
-                            
-                            <!-- Divisória da Linha 2 -->
-                            <div class="space-y-1">
-                                <div class="flex justify-between items-center px-1"><span class="text-[10px] text-zinc-500 font-mono uppercase tracking-wider">Linha de Prod. 2</span></div>
-                                <div class="grid grid-cols-5 gap-2">
-                                    <input type="text" id="${maq}_code_2" placeholder="Cód. Prod." class="col-span-3 bg-zinc-950 border border-zinc-800 rounded p-2 text-white text-xs font-mono focus:border-yellow-600 outline-none uppercase">
-                                    <input type="number" id="${maq}_qty_2" placeholder="Qtd." class="col-span-2 bg-zinc-950 border border-zinc-800 rounded p-2 text-white text-xs font-mono text-right focus:border-yellow-600 outline-none">
-                                </div>
-                            </div>
-                            
-                            <hr class="border-zinc-800/70">
-                            
-                            <!-- Divisória da Linha 3 -->
-                            <div class="space-y-1">
-                                <div class="flex justify-between items-center px-1"><span class="text-[10px] text-zinc-500 font-mono uppercase tracking-wider">Linha de Prod. 3</span></div>
-                                <div class="grid grid-cols-5 gap-2">
-                                    <input type="text" id="${maq}_code_3" placeholder="Cód. Prod." class="col-span-3 bg-zinc-950 border border-zinc-800 rounded p-2 text-white text-xs font-mono focus:border-yellow-600 outline-none uppercase">
-                                    <input type="number" id="${maq}_qty_3" placeholder="Qtd." class="col-span-2 bg-zinc-950 border border-zinc-800 rounded p-2 text-white text-xs font-mono text-right focus:border-yellow-600 outline-none">
-                                </div>
-                            </div>
+                        <div id="${maq}-rows-container" class="space-y-3">
+                            <!-- Dinâmico -->
                         </div>
                     </div>
                 `;
             });
+
+            // Inicializa com as 2 linhas padrão como solicitado
+            maquinas.forEach(maq => {
+                inicializarLinhas(maq, 2);
+            });
+
             renderizarHistorico();
+
+            // Adiciona gatilho para confirmar senha ao clicar Enter no input de senha
+            document.getElementById('input-senha-chave').addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') {
+                    confirmarSenhaChave();
+                }
+            });
         });
 
-        // Exibe um aviso bonito flutuante na tela
+        // Controle de Segurança por Senha Customizado
+        function solicitarSenha(callback) {
+            callbackAcaoSenha = callback;
+            document.getElementById('input-senha-chave').value = '';
+            document.getElementById('erro-senha-msg').classList.add('hidden');
+            document.getElementById('modal-senha').classList.remove('hidden');
+            setTimeout(() => {
+                document.getElementById('input-senha-chave').focus();
+            }, 100);
+        }
+
+        // Fecha o modal de solicitação de senha
+        function fecharModalSenha() {
+            document.getElementById('modal-senha').classList.add('hidden');
+            callbackAcaoSenha = null;
+        }
+
+        // Valida a senha informada e imediatamente executa o salvamento
+        function confirmarSenhaChave() {
+            const senhaDigitada = document.getElementById('input-senha-chave').value;
+            if (senhaDigitada === 'vinicius123') {
+                const acao = callbackAcaoSenha; // Copia a referência da ação
+                fecharModalSenha(); // Fecha primeiro o modal
+                if (typeof acao === 'function') {
+                    acao(); // Executa o salvamento de dados imediatamente
+                }
+            } else {
+                document.getElementById('erro-senha-msg').classList.remove('hidden');
+                document.getElementById('input-senha-chave').select();
+            }
+        }
+
+        // Configura uma quantidade inicial de linhas para a seção
+        function inicializarLinhas(maq, quantidade = 2) {
+            const container = document.getElementById(`${maq}-rows-container`);
+            if (!container) return;
+            container.innerHTML = '';
+            for (let i = 1; i <= quantidade; i++) {
+                adicionarLinha(maq);
+            }
+        }
+
+        // Adiciona uma nova linha com código de produto, quantidade e botão de remoção
+        function adicionarLinha(maq) {
+            const container = document.getElementById(`${maq}-rows-container`);
+            if (!container) return;
+            
+            const uniqueId = `${maq}-row-${Date.now()}-${Math.random().toString(36).substr(2, 4)}`;
+            const isAlmox = maq === 'almox';
+            const itemPrefix = isAlmox ? 'Material' : 'Linha de Prod.';
+            const placeholderCod = isAlmox ? 'Cód. Material' : 'Cód. Prod.';
+
+            const div = document.createElement('div');
+            div.id = uniqueId;
+            div.className = "row-item relative group bg-zinc-950/40 p-2.5 rounded-lg border border-zinc-800/80 transition-all duration-150 space-y-1";
+            div.innerHTML = `
+                <div class="flex justify-between items-center">
+                    <span class="text-[10px] text-zinc-500 font-mono uppercase tracking-wider">${itemPrefix}</span>
+                    <button type="button" onclick="removerLinhaEspecial('${maq}', '${uniqueId}')" class="text-zinc-500 hover:text-red-400 transition text-[10px] font-bold px-1.5 py-0.5 rounded bg-zinc-900 border border-zinc-800" title="Remover esta linha">
+                        &times; Remover
+                    </button>
+                </div>
+                <div class="grid grid-cols-5 gap-2">
+                    <input type="text" class="input-code col-span-3 bg-zinc-950 border border-zinc-800 rounded p-2 text-white text-xs font-mono focus:border-yellow-300 outline-none uppercase" placeholder="${placeholderCod}">
+                    <input type="number" class="input-qty col-span-2 bg-zinc-950 border border-zinc-800 rounded p-2 text-white text-xs font-mono text-right focus:border-yellow-300 outline-none" placeholder="Qtd.">
+                </div>
+            `;
+            container.appendChild(div);
+        }
+
+        // Remove com segurança uma linha específica do painel
+        function removerLinhaEspecial(maq, rowId) {
+            const container = document.getElementById(`${maq}-rows-container`);
+            if (!container) return;
+            
+            const rows = container.querySelectorAll('.row-item');
+            if (rows.length <= 1) {
+                dispararNotificacao('Atenção: É necessário manter pelo menos 1 linha ativa.');
+                return;
+            }
+
+            const elementToRemove = document.getElementById(rowId);
+            if (elementToRemove) {
+                elementToRemove.remove();
+                dispararNotificacao('Linha removida com sucesso!');
+            }
+        }
+
         function dispararNotificacao(texto, exibirDesfazer = false) {
             const toast = document.getElementById('toast');
             const undoBtn = document.getElementById('toast-undo-btn');
@@ -234,158 +420,190 @@
             }, 6000);
         }
 
+        // Executa a validação final e grava com segurança no localStorage e recarrega histórico
         function salvarProducao() {
-            const data = document.getElementById('main-data').value;
-            if (!data) {
-                dispararNotificacao('Por favor, defina uma data válida.');
-                return;
-            }
+            try {
+                const data = document.getElementById('main-data').value;
+                if (!data) {
+                    dispararNotificacao('Por favor, defina uma data válida.');
+                    return;
+                }
 
-            let validacaoSucesso = false;
-            const novosValores = {};
+                let validacaoSucesso = false;
+                const novosValores = {};
 
-            maquinas.forEach(maq => {
-                const itens = [];
-                let totalSoma = 0;
+                maquinas.forEach(maq => {
+                    const container = document.getElementById(`${maq}-rows-container`);
+                    const itens = [];
+                    let totalSoma = 0;
 
-                for (let i = 1; i <= 3; i++) {
-                    const cod = document.getElementById(`${maq}_code_${i}`).value.trim().toUpperCase();
-                    const qtd = parseFloat(document.getElementById(`${maq}_qty_${i}`).value) || 0;
+                    if (container) {
+                        const rows = container.querySelectorAll('.row-item');
+                        rows.forEach(row => {
+                            const inputCod = row.querySelector('.input-code');
+                            const inputQty = row.querySelector('.input-qty');
 
-                    if (cod !== '' || qtd > 0) {
-                        validacaoSucesso = true;
+                            if (!inputCod || !inputQty) return;
+
+                            const cod = inputCod.value.trim().toUpperCase();
+                            const qtd = parseFloat(inputQty.value) || 0;
+
+                            if (cod !== '' || qtd > 0) {
+                                validacaoSucesso = true;
+                            }
+
+                            itens.push({ cod: cod || 'S/ COD', qtd: qtd });
+                            totalSoma += qtd;
+                        });
                     }
 
-                    itens.push({ cod: cod || 'S/ COD', qtd: qtd });
-                    totalSoma += qtd;
+                    novosValores[maq] = {
+                        total: totalSoma,
+                        detalhes: itens
+                    };
+                });
+
+                if (!validacaoSucesso) {
+                    dispararNotificacao('Preencha pelo menos um código ou quantidade para registrar.');
+                    return;
                 }
 
-                novosValores[maq] = {
-                    total: totalSoma,
-                    detalhes: itens
-                };
-            });
+                let historico = JSON.parse(localStorage.getItem('rocal_producoes') || '[]');
 
-            if (!validacaoSucesso) {
-                dispararNotificacao('Preencha pelo menos um código ou quantidade para registrar.');
-                return;
-            }
-
-            let historico = JSON.parse(localStorage.getItem('rocal_producoes') || '[]');
-
-            if (idEdicaoAtiva) {
-                const index = historico.findIndex(p => p.id === idEdicaoAtiva);
-                if (index !== -1) {
-                    historico[index].data = data;
-                    historico[index].valores = novosValores;
-                    dispararNotificacao('Registro atualizado com sucesso!');
+                if (idEdicaoAtiva) {
+                    const index = historico.findIndex(p => p.id === idEdicaoAtiva);
+                    if (index !== -1) {
+                        historico[index].data = data;
+                        historico[index].valores = novosValores;
+                        dispararNotificacao('Registro atualizado com sucesso!');
+                    } else {
+                        dispararNotificacao('Falha ao localizar registro para atualização.');
+                    }
+                    cancelarEdicao();
                 } else {
-                    dispararNotificacao('Falha ao localizar registro para atualização.');
+                    const novaProducao = {
+                        id: 'prod_' + Date.now() + '_' + Math.random().toString(36).substr(2, 4),
+                        data: data,
+                        valores: novosValores
+                    };
+                    historico.push(novaProducao);
+                    dispararNotificacao('Produção gravada com sucesso!');
                 }
-                cancelarEdicao();
-            } else {
-                const novaProducao = {
-                    id: 'prod_' + Date.now() + '_' + Math.random().toString(36).substr(2, 4),
-                    data: data,
-                    valores: novosValores
-                };
-                historico.push(novaProducao);
-                dispararNotificacao('Produção gravada com sucesso!');
+
+                // Grava no armazenamento do navegador de forma persistente
+                localStorage.setItem('rocal_producoes', JSON.stringify(historico));
+
+                // Reseta e renderiza a tabela imediatamente
+                limparFormulario();
+                renderizarHistorico();
+            } catch (error) {
+                console.error("Erro ao salvar produção:", error);
+                dispararNotificacao("Ocorreu um erro técnico ao salvar os dados.");
             }
-
-            localStorage.setItem('rocal_producoes', JSON.stringify(historico));
-
-            limparFormulario();
-            renderizarHistorico();
         }
 
         function limparFormulario() {
             maquinas.forEach(maq => {
-                for (let i = 1; i <= 3; i++) {
-                    document.getElementById(`${maq}_code_${i}`).value = '';
-                    document.getElementById(`${maq}_qty_${i}`).value = '';
-                }
+                inicializarLinhas(maq, 2);
             });
         }
 
+        // Obtém o HTML formatado da célula. Tratado com try/catch para evitar crashes.
         function obterCelulaHTML(registro, maq) {
-            if (registro.valores && registro.valores[maq]) {
-                const total = registro.valores[maq].total;
-                const itens = registro.valores[maq].detalhes || [];
-                const itensFiltrados = itens.filter(it => it.qtd > 0);
+            try {
+                if (registro && registro.valores && registro.valores[maq]) {
+                    const total = registro.valores[maq].total || 0;
+                    const itens = registro.valores[maq].detalhes || [];
+                    const itensFiltrados = itens.filter(it => it.qtd > 0);
 
-                if (total === 0) {
-                    return `<span class="text-zinc-600 font-mono text-xs italic">-</span>`;
-                }
+                    if (total === 0 && itensFiltrados.length === 0) {
+                        return `<span class="text-zinc-600 font-mono text-xs italic">-</span>`;
+                    }
 
-                let html = `<div class="flex flex-col items-center justify-center py-1">`;
-                html += `<span class="font-black text-sm text-zinc-100">${total}</span>`;
-                
-                if (itensFiltrados.length > 0) {
-                    html += `<div class="mt-1 flex flex-col gap-1 w-full max-w-[140px] px-1">`;
-                    itensFiltrados.forEach(it => {
-                        const codigoExibido = it.cod && it.cod !== 'S/ COD' ? it.cod : 'S/ COD';
-                        html += `
-                            <div class="flex justify-between items-center text-[9px] bg-zinc-950/80 border border-zinc-800/80 rounded px-1.5 py-0.5 font-mono text-zinc-300">
-                                <span class="text-amber-500 font-bold truncate max-w-[65px]" title="${codigoExibido}">${codigoExibido}</span>
-                                <span class="text-zinc-400 font-medium">${it.qtd}</span>
-                            </div>
-                        `;
-                    });
+                    let html = `<div class="flex flex-col items-center justify-center py-1">`;
+                    html += `<span class="font-black text-sm text-zinc-100">${total}</span>`;
+                    
+                    if (itensFiltrados.length > 0) {
+                        html += `<div class="mt-1 flex flex-col gap-1 w-full max-w-[140px] px-1">`;
+                        itensFiltrados.forEach(it => {
+                            const codigoExibido = it.cod && it.cod !== 'S/ COD' ? it.cod : 'S/ COD';
+                            const isAlmox = maq === 'almox';
+                            const textAccent = isAlmox ? 'text-zinc-300' : 'text-yellow-300';
+                            const badgeBorder = isAlmox ? 'border-zinc-700/60' : 'border-zinc-800/80';
+                            html += `
+                                <div class="flex justify-between items-center text-[9px] bg-zinc-950/80 border ${badgeBorder} rounded px-1.5 py-0.5 font-mono text-zinc-300">
+                                    <span class="${textAccent} font-bold truncate max-w-[65px]" title="${codigoExibido}">${codigoExibido}</span>
+                                    <span class="text-zinc-400 font-medium">${it.qtd}</span>
+                                </div>
+                            `;
+                        });
+                        html += `</div>`;
+                    }
                     html += `</div>`;
+                    return html;
                 }
-                html += `</div>`;
-                return html;
+                
+                // Suporte para dados legados (caso existam)
+                const totalLegado = registro && registro[maq] !== undefined ? registro[maq] : 0;
+                return totalLegado > 0 
+                    ? `<div class="text-center font-mono text-xs text-zinc-400 font-bold">${totalLegado}<span class="block text-[8px] text-zinc-600 font-normal italic">(legado)</span></div>` 
+                    : `<span class="text-zinc-600 font-mono text-xs italic">-</span>`;
+            } catch (e) {
+                console.error("Erro de formatação de célula legado:", e);
+                return `<span class="text-zinc-600 font-mono text-xs italic">-</span>`;
             }
-            
-            const totalLegado = registro[maq] !== undefined ? registro[maq] : 0;
-            return totalLegado > 0 
-                ? `<div class="text-center font-mono text-xs text-zinc-400 font-bold">${totalLegado}<span class="block text-[8px] text-zinc-600 font-normal italic">(legado)</span></div>` 
-                : `<span class="text-zinc-600 font-mono text-xs italic">-</span>`;
         }
 
+        // Renderiza e atualiza as tabelas de logs
         function renderizarHistorico() {
-            const tbody = document.getElementById('tabela-corpo');
-            const historico = JSON.parse(localStorage.getItem('rocal_producoes') || '[]');
-            
-            if (historico.length === 0) {
-                tbody.innerHTML = `
-                    <tr>
-                        <td colspan="8" class="p-8 text-center text-zinc-500 italic font-mono text-xs">Nenhuma produção registrada até o momento.</td>
-                    </tr>
-                `;
-                return;
-            }
+            try {
+                const tbody = document.getElementById('tabela-corpo');
+                if (!tbody) return;
 
-            tbody.innerHTML = historico.slice().reverse().map(p => {
-                return `
-                    <tr class="border-b border-zinc-800/50 hover:bg-zinc-900/40 transition">
-                        <td class="p-4 font-mono text-xs font-bold text-zinc-300">${p.data}</td>
-                        <td class="p-4 text-center border-r border-zinc-800/30">${obterCelulaHTML(p, 'm1')}</td>
-                        <td class="p-4 text-center border-r border-zinc-800/30">${obterCelulaHTML(p, 'm2')}</td>
-                        <td class="p-4 text-center border-r border-zinc-800/30">${obterCelulaHTML(p, 'm3')}</td>
-                        <td class="p-4 text-center border-r border-zinc-800/30">${obterCelulaHTML(p, 'm4')}</td>
-                        <td class="p-4 text-center border-r border-zinc-800/30">${obterCelulaHTML(p, 'm5')}</td>
-                        <td class="p-4 text-center border-r border-zinc-800/30">${obterCelulaHTML(p, 'div')}</td>
-                        <td class="p-4 text-right">
-                            <div class="flex justify-end gap-1.5 flex-wrap sm:flex-nowrap">
-                                <button onclick="compartilharRegistroWhatsApp('${p.id || ''}')" class="bg-emerald-600/10 hover:bg-emerald-600 text-emerald-400 hover:text-white p-2 rounded-lg text-xs transition duration-150 flex items-center justify-center shadow" title="Enviar Relatório via WhatsApp">
-                                    <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946C.06 5.348 5.397.01 12.008.01c3.202.001 6.212 1.246 8.477 3.513 2.265 2.268 3.507 5.28 3.505 8.484-.004 6.657-5.34 11.997-11.953 11.997-2.005-.001-3.973-.502-5.724-1.455L0 24zm6.59-4.846c1.6.95 3.188 1.449 4.825 1.451 5.436 0 9.86-4.37 9.864-9.799.002-2.63-1.023-5.101-2.885-6.97C16.387 1.963 13.9.931 11.997.931c-5.444 0-9.866 4.372-9.87 9.802 0 1.913.514 3.778 1.49 5.44l-.976 3.565 3.656-.959zm11.567-7.382c-.315-.158-1.86-.918-2.149-1.023-.289-.104-.499-.158-.707.158-.209.315-.81.104-.993.315-.184.21-.368.21-.683.052-.315-.157-1.332-.49-2.537-1.565-.939-.838-1.573-1.873-1.756-2.189-.184-.315-.02-.485.137-.642.142-.143.315-.368.473-.551.158-.184.21-.316.315-.527.105-.21.053-.395-.026-.553-.079-.158-.707-1.708-.969-2.338-.255-.613-.514-.529-.707-.539-.183-.01-.394-.012-.605-.012s-.553.079-.842.395c-.29.316-1.105 1.079-1.105 2.632 0 1.553 1.132 3.053 1.29 3.263.158.21 2.228 3.402 5.398 4.766.754.324 1.343.517 1.803.663.757.241 1.447.207 1.993.125.608-.092 1.86-.761 2.123-1.459.263-.697.263-1.29.184-1.41-.079-.12-.29-.197-.605-.355z"/></svg>
-                                </button>
-                                <button onclick="carregarParaEdicao('${p.id}')" class="bg-amber-500/10 hover:bg-amber-500 text-yellow-500 hover:text-zinc-950 font-bold p-2 rounded-lg text-xs transition duration-150 flex items-center gap-1 shadow" title="Editar Lançamento">
-                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/></svg>
-                                </button>
-                                <button onclick="verDetalhes('${p.id || ''}', '${p.data}')" class="bg-zinc-800 hover:bg-zinc-700 text-zinc-300 font-bold p-2 rounded-lg text-xs transition duration-150 flex items-center gap-1 shadow" title="Ver Detalhes Ampliados">
-                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg>
-                                </button>
-                                <button onclick="deletarRegistro('${p.id || ''}')" class="bg-red-950/20 hover:bg-red-600 text-red-400 hover:text-white p-2 rounded-lg text-xs transition duration-150 flex items-center justify-center shadow" title="Apagar Lançamento">
-                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
-                                </button>
-                            </div>
-                        </td>
-                    </tr>
-                `;
-            }).join('');
+                const historico = JSON.parse(localStorage.getItem('rocal_producoes') || '[]');
+                
+                if (historico.length === 0) {
+                    tbody.innerHTML = `
+                        <tr>
+                            <td colspan="9" class="p-8 text-center text-zinc-500 italic font-mono text-xs">Nenhuma produção registrada até o momento.</td>
+                        </tr>
+                    `;
+                    return;
+                }
+
+                tbody.innerHTML = historico.slice().reverse().map(p => {
+                    return `
+                        <tr class="border-b border-zinc-800/50 hover:bg-zinc-900/40 transition">
+                            <td class="p-4 font-mono text-xs font-bold text-zinc-300">${p.data || 'Sem Data'}</td>
+                            <td class="p-4 text-center border-r border-zinc-800/30">${obterCelulaHTML(p, 'm1')}</td>
+                            <td class="p-4 text-center border-r border-zinc-800/30">${obterCelulaHTML(p, 'm2')}</td>
+                            <td class="p-4 text-center border-r border-zinc-800/30">${obterCelulaHTML(p, 'm3')}</td>
+                            <td class="p-4 text-center border-r border-zinc-800/30">${obterCelulaHTML(p, 'm4')}</td>
+                            <td class="p-4 text-center border-r border-zinc-800/30">${obterCelulaHTML(p, 'm5')}</td>
+                            <td class="p-4 text-center border-r border-zinc-800/30">${obterCelulaHTML(p, 'div')}</td>
+                            <td class="p-4 text-center border-r border-zinc-800/30">${obterCelulaHTML(p, 'almox')}</td>
+                            <td class="p-4 text-right">
+                                <div class="flex justify-end gap-1.5 flex-wrap sm:flex-nowrap">
+                                    <button onclick="compartilharRegistroWhatsApp('${p.id || ''}')" class="bg-emerald-600/10 hover:bg-emerald-600 text-emerald-400 hover:text-white p-2 rounded-lg text-xs transition duration-150 flex items-center justify-center shadow" title="Enviar Relatório via WhatsApp">
+                                        <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946C.06 5.348 5.397.01 12.008.01c3.202.001 6.212 1.246 8.477 3.513 2.265 2.268 3.507 5.28 3.505 8.484-.004 6.657-5.34 11.997-11.953 11.997-2.005-.001-3.973-.502-5.724-1.455L0 24zm6.59-4.846c1.6.95 3.188 1.449 4.825 1.451 5.436 0 9.86-4.37 9.864-9.799.002-2.63-1.023-5.101-2.885-6.97C16.387 1.963 13.9.931 11.997.931c-5.444 0-9.866 4.372-9.87 9.802 0 1.913.514 3.778 1.49 5.44l-.976 3.565 3.656-.959zm11.567-7.382c-.315-.158-1.86-.918-2.149-1.023-.289-.104-.499-.158-.707.158-.209.315-.81.104-.993.315-.184.21-.368.21-.683.052-.315-.157-1.332-.49-2.537-1.565-.939-.838-1.573-1.873-1.756-2.189-.184-.315-.02-.485.137-.642.142-.143.315-.368.473-.551.158-.184.21-.316.315-.527.105-.21.053-.395-.026-.553-.079-.158-.707-1.708-.969-2.338-.255-.613-.514-.529-.707-.539-.183-.01-.394-.012-.605-.012s-.553.079-.842.395c-.29.316-1.105 1.079-1.105 2.632 0 1.553 1.132 3.053 1.29 3.263.158.21 2.228 3.402 5.398 4.766.754.324 1.343.517 1.803.663.757.241 1.447.207 1.993.125.608-.092 1.86-.761 2.123-1.459.263-.697.263-1.29.184-1.41-.079-.12-.29-.197-.605-.355z"/></svg>
+                                    </button>
+                                    <button onclick="solicitarSenha(() => carregarParaEdicao('${p.id}'))" class="bg-amber-500/10 hover:bg-amber-500 text-yellow-300 hover:text-zinc-950 font-bold p-2 rounded-lg text-xs transition duration-150 flex items-center gap-1 shadow" title="Editar Lançamento">
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/></svg>
+                                    </button>
+                                    <button onclick="verDetalhes('${p.id || ''}', '${p.data}')" class="bg-zinc-800 hover:bg-zinc-700 text-zinc-300 font-bold p-2 rounded-lg text-xs transition duration-150 flex items-center gap-1 shadow" title="Ver Detalhes Ampliados">
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg>
+                                    </button>
+                                    <button onclick="solicitarSenha(() => deletarRegistro('${p.id || ''}'))" class="bg-red-950/20 hover:bg-red-600 text-red-400 hover:text-white p-2 rounded-lg text-xs transition duration-150 flex items-center justify-center shadow" title="Apagar Lançamento">
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                    `;
+                }).join('');
+            } catch (error) {
+                console.error("Erro ao renderizar o histórico:", error);
+            }
         }
 
         function carregarParaEdicao(id) {
@@ -396,30 +614,55 @@
 
             idEdicaoAtiva = id;
             document.getElementById('main-data').value = registro.data;
-            document.getElementById('formulario-titulo').innerText = "Editar Registro de Produção";
+            document.getElementById('formulario-titulo').innerText = "Editar Registro de Produção / Almoxarifado";
             document.getElementById('btn-gravar-texto').innerText = "Atualizar Lançamento no Banco";
             
             document.getElementById('indicador-edicao').classList.remove('hidden');
             document.getElementById('btn-cancelar-edicao').classList.remove('hidden');
 
             maquinas.forEach(maq => {
-                if (registro.valores && registro.valores[maq]) {
-                    const itens = registro.valores[maq].detalhes || [];
-                    for (let i = 1; i <= 3; i++) {
-                        const item = itens[i - 1];
-                        document.getElementById(`${maq}_code_${i}`).value = (item && item.cod !== 'S/ COD') ? item.cod : '';
-                        document.getElementById(`${maq}_qty_${i}`).value = (item && item.qtd > 0) ? item.qtd : '';
-                    }
-                } else {
-                    for (let i = 1; i <= 3; i++) {
-                        document.getElementById(`${maq}_code_${i}`).value = '';
-                        document.getElementById(`${maq}_qty_${i}`).value = '';
+                const itens = (registro.valores && registro.valores[maq]) ? (registro.valores[maq].detalhes || []) : [];
+                
+                // Reconstrói as linhas com precisão baseada nos dados do banco
+                const container = document.getElementById(`${maq}-rows-container`);
+                if (!container) return;
+                container.innerHTML = '';
+                
+                // Mínimo de 2 linhas necessárias para cada bloco
+                const linhasParaCriar = Math.max(2, itens.length);
+                
+                for (let i = 0; i < linhasParaCriar; i++) {
+                    const uniqueId = `${maq}-row-${Date.now()}-${Math.random().toString(36).substr(2, 4)}`;
+                    const isAlmox = maq === 'almox';
+                    const itemPrefix = isAlmox ? 'Material' : 'Linha de Prod.';
+                    const placeholderCod = isAlmox ? 'Cód. Material' : 'Cód. Prod.';
+                    
+                    const div = document.createElement('div');
+                    div.id = uniqueId;
+                    div.className = "row-item relative group bg-zinc-950/40 p-2.5 rounded-lg border border-zinc-800/80 transition-all duration-150 space-y-1";
+                    div.innerHTML = `
+                        <div class="flex justify-between items-center">
+                            <span class="text-[10px] text-zinc-500 font-mono uppercase tracking-wider">${itemPrefix}</span>
+                            <button type="button" onclick="removerLinhaEspecial('${maq}', '${uniqueId}')" class="text-zinc-500 hover:text-red-400 transition text-[10px] font-bold px-1.5 py-0.5 rounded bg-zinc-900 border border-zinc-800" title="Remover esta linha">
+                                &times; Remover
+                            </button>
+                        </div>
+                        <div class="grid grid-cols-5 gap-2">
+                            <input type="text" class="input-code col-span-3 bg-zinc-950 border border-zinc-800 rounded p-2 text-white text-xs font-mono focus:border-yellow-300 outline-none uppercase" placeholder="${placeholderCod}">
+                            <input type="number" class="input-qty col-span-2 bg-zinc-950 border border-zinc-800 rounded p-2 text-white text-xs font-mono text-right focus:border-yellow-300 outline-none" placeholder="Qtd.">
+                        </div>
+                    `;
+                    container.appendChild(div);
+                    
+                    if (itens[i]) {
+                        div.querySelector('.input-code').value = itens[i].cod !== 'S/ COD' ? itens[i].cod : '';
+                        div.querySelector('.input-qty').value = itens[i].qtd > 0 ? itens[i].qtd : '';
                     }
                 }
             });
 
             window.scrollTo({ top: 0, behavior: 'smooth' });
-            dispararNotificacao('Dados carregados no formulário. Faça as alterações e clique em Atualizar.');
+            dispararNotificacao('Dados carregados no formulário. Faça as alterações e clique em Gravar.');
         }
 
         function cancelarEdicao() {
@@ -444,7 +687,8 @@
             let gridHTML = '<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">';
 
             maquinas.forEach(maq => {
-                const label = maq === 'div' ? 'Diversos' : `Máquina ${maq.toUpperCase()}`;
+                const isAlmox = maq === 'almox';
+                const label = isAlmox ? 'Almoxarifado' : (maq === 'div' ? 'Diversos' : `Máquina ${maq.toUpperCase()}`);
                 let subitensHTML = '';
                 let totalSoma = 0;
 
@@ -454,10 +698,11 @@
                     
                     itens.forEach((it, idx) => {
                         if (it.cod !== 'S/ COD' || it.qtd > 0) {
+                            const itemPrefix = isAlmox ? 'Mat.' : 'Prod.';
                             subitensHTML += `
                                 <div class="flex justify-between items-center text-xs py-1.5 border-b border-zinc-800 font-mono">
                                     <span class="text-zinc-400 flex items-center gap-1.5">
-                                        <span class="text-zinc-600 text-[10px]">#${idx + 1}</span>
+                                        <span class="text-zinc-600 text-[10px]">${itemPrefix} #${idx + 1}</span>
                                         <span class="bg-zinc-800 text-zinc-300 px-1.5 py-0.5 rounded text-[10px] uppercase font-bold tracking-wider">${it.cod}</span>
                                     </span>
                                     <span class="font-bold text-zinc-100">${it.qtd}</span>
@@ -468,21 +713,27 @@
                 } else {
                     totalSoma = registro[maq] || 0;
                     subitensHTML = `
-                        <div class="text-xs text-zinc-500 italic py-2">Registro legado (dados detalhados de código indisponíveis para esta entrada).</div>
+                        <div class="text-xs text-zinc-500 italic py-2">Registro legado (dados detalhados indisponíveis para esta entrada).</div>
                     `;
                 }
 
                 if (!subitensHTML) {
                     subitensHTML = `
-                        <div class="text-xs text-zinc-600 italic py-2">Sem produção registrada.</div>
+                        <div class="text-xs text-zinc-600 italic py-2">Sem movimentações registradas neste bloco.</div>
                     `;
                 }
 
+                const cardBorder = isAlmox ? 'border-yellow-600/30 bg-zinc-950/90' : 'border-zinc-800/80 bg-zinc-950';
+                const labelText = isAlmox ? 'Qtd Retirada' : 'Qtd Total';
+
                 gridHTML += `
-                    <div class="bg-zinc-950 p-4 rounded-xl border border-zinc-800/80">
+                    <div class="${cardBorder} p-4 rounded-xl border">
                         <div class="flex justify-between items-center border-b border-zinc-800/80 pb-2 mb-2">
-                            <span class="font-extrabold text-accent text-xs uppercase tracking-wide">${label}</span>
-                            <span class="bg-zinc-900 border border-zinc-800 text-xs text-yellow-500 font-mono px-2 py-0.5 rounded-md font-bold">Qtd Total: ${totalSoma}</span>
+                            <span class="font-extrabold text-accent text-xs uppercase tracking-wide flex items-center gap-1.5">
+                                ${isAlmox ? '<svg class="w-3.5 h-3.5 text-yellow-300" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/></svg>' : ''}
+                                ${label}
+                            </span>
+                            <span class="bg-zinc-900 border border-zinc-800 text-xs text-yellow-300 font-mono px-2 py-0.5 rounded-md font-bold">${labelText}: ${totalSoma}</span>
                         </div>
                         <div class="space-y-1">
                             ${subitensHTML}
@@ -496,6 +747,7 @@
             document.getElementById('modal-detalhes').classList.remove('hidden');
         }
 
+        // Fecha o modal de detalhes
         function fecharModal() {
             document.getElementById('modal-detalhes').classList.add('hidden');
         }
@@ -522,6 +774,10 @@
             }
         }
 
+        function desfazerExclusaoComSenha() {
+            solicitarSenha(desfazerExclusao);
+        }
+
         function desfazerExclusao() {
             if (!registroDeletadoProvisorio) return;
 
@@ -546,11 +802,11 @@
                 return;
             }
 
-            let csv = 'Data,Maquina,Codigo do Produto,Quantidade,Total Maquina no Turno\n';
+            let csv = 'Data,Maquina/Setor,Codigo do Material/Produto,Quantidade,Total no Turno\n';
             
             historico.forEach(p => {
                 maquinas.forEach(maq => {
-                    const label = maq === 'div' ? 'Diversos' : `Maquina ${maq.toUpperCase()}`;
+                    const label = maq === 'div' ? 'Diversos' : (maq === 'almox' ? 'Almoxarifado' : `Maquina ${maq.toUpperCase()}`);
                     
                     if (p.valores && p.valores[maq]) {
                         const total = p.valores[maq].total;
@@ -593,7 +849,8 @@
             let temAlgumaProducao = false;
 
             maquinas.forEach(maq => {
-                const label = maq === 'div' ? 'Diversos' : `Máquina ${maq.toUpperCase()}`;
+                const isAlmox = maq === 'almox';
+                const label = isAlmox ? 'Almoxarifado' : (maq === 'div' ? 'Diversos' : `Máquina ${maq.toUpperCase()}`);
                 
                 if (p.valores && p.valores[maq]) {
                     const total = p.valores[maq].total;
@@ -602,10 +859,16 @@
 
                     if (total > 0) {
                         temAlgumaProducao = true;
-                        msg += `*🟡 ${label.toUpperCase()}* (Total: *${total}*)\n`;
+                        if (isAlmox) {
+                            msg += `*📦 ${label.toUpperCase()}* (Material Retirado: *${total}*)\n`;
+                        } else {
+                            msg += `*🟡 ${label.toUpperCase()}* (Total: *${total}*)\n`;
+                        }
+
                         itensFiltrados.forEach((it, index) => {
-                            const cod = it.cod && it.cod !== 'S/ COD' ? it.cod : 'SEM CÓD';
-                            msg += `   └─ Prod. #${index + 1}: *[${cod}]* ➔ Qtd: *${it.qtd}*\n`;
+                            const cod = idEdicaoAtiva ? (it.cod && it.cod !== 'S/ COD' ? it.cod : 'SEM CÓD') : (it.cod || 'SEM CÓD');
+                            const itemPrefix = isAlmox ? 'Mat.' : 'Prod.';
+                            msg += `   └─ ${itemPrefix} #${index + 1}: *[${cod}]* ➔ Qtd: *${it.qtd}*\n`;
                         });
                         msg += `\n`;
                     }
@@ -619,11 +882,11 @@
             });
 
             if (!temAlgumaProducao) {
-                msg += `_Nenhuma produção foi registrada neste turno._\n\n`;
+                msg += `_Nenhuma produção ou movimentação de almoxarifado foi registrada neste turno._\n\n`;
             }
 
             msg += `=============================\n`;
-            msg += `_Enviado de forma automatizada pelo Painel de Controle ROCAL NOTURNO._`;
+            msg += `_Enviado de forma automatizada pelo Painel de Controle ROCAL ELETRÔNICA._`;
 
             return encodeURIComponent(msg);
         }
